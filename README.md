@@ -1,9 +1,9 @@
-# Arxiv Daily Digest
+# Arxiv Feed
 
 ![Demo](https://i.imgur.com/LDcIGSf.png)
 
 ## Overview
-Arxiv Daily Digest is a straightforward tool to keep you updated with the latest research papers from Arxiv.org. By selecting your areas of interest, it compiles a digest and delivers it straight to your inbox. 
+Arxiv Feed is a straightforward tool to keep you updated with the latest research papers from Arxiv.org. By selecting your areas of interest, it compiles a digest and delivers it straight to your inbox. 
 
 This service is free and runs on GitHub Actions once a day.
 
