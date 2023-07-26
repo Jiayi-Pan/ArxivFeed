@@ -42,6 +42,23 @@ class ArxivDigest:
                 color: #333;
                 text-align: justify;
             }
+            ol {
+                padding-left: 20px;
+                margin-bottom: 20px;
+            }
+
+            li {
+                margin-bottom: 10px;
+            }
+
+            li a {
+                text-decoration: none;
+                color: #333;
+            }
+
+            li a:hover {
+                color: #b31b1b; /* Cornell Red */
+            }
         """
 
 
@@ -80,19 +97,34 @@ class ArxivDigest:
                 </style>
             </head>
             <body>
+                <a name="toc"></a>
                 <h1>Arxiv Papers for {data['date']} - Part {part}</h1>
+                {self.render_toc(data['paper_info'])}
         """
 
-        for paper in data['paper_info']:
+        for i, paper in enumerate(data['paper_info'], 1):
             html_str += f"""
+            <a name="paper{i}"></a>
             <div class="paper">
-                <div class="title"><a href="{paper['link']}">{paper['title']}</a></div>
+                <div class="title">
+                    <a href="{paper['link']}">{paper['title']}</a>
+                    <a href="#toc" style="font-size:0.8em; text-decoration: none; color: #333; margin-left: 10px;">[Back to TOC]</a>
+                </div>
                 <div class="authors">Authors: {', '.join(paper['authors'])}</div>
                 <div class="abstract">{paper['abstract']}</div>
             </div>
             """
+            
         html_str += "</body></html>"
         return html_str
+
+    def render_toc(self, paper_info):
+        toc_html = '<div class="toc" style="margin-bottom:20px;"><h2 style="font-size:1.5em; margin-bottom:10px;">Table of Contents</h2><ul style="list-style-type: none;">'
+        for i, paper in enumerate(paper_info, 1):
+            toc_html += f'<li style="margin-bottom:5px;"><a href="#paper{i}" style="font-size:0.9em; color: #b31b1b;">{paper["title"]}</a></li>'
+        toc_html += '</ul></div>'
+        return toc_html
+
 
     def send_emails(self):
         feed_data_list = []
@@ -138,7 +170,6 @@ class ArxivDigest:
             }
 
             email = self.resend.Emails.send(params)
-            print(email)
 
 def main():
     sub_urls = [f'http://export.arxiv.org/rss/{domain}' for domain in domains]
